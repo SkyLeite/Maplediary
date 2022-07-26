@@ -6,6 +6,7 @@ module.exports = {
   entry: './public/index.js',
   devServer: {
     static: './dist',
+    port: 5000,
   },
   output: {
     filename: 'main.js',

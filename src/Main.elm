@@ -1,8 +1,9 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, button, div, text, span)
+import Html exposing (Html, button, div, span, text)
 import Html.Events exposing (onClick)
+import MapleTask exposing (MapleTask)
 
 
 
@@ -10,39 +11,48 @@ import Html.Events exposing (onClick)
 
 
 main =
-  Browser.sandbox { init = init, update = update, view = view }
+    Browser.sandbox
+        { init = init
+        , update = update
+        , view = view
+        }
 
 
 
 -- MODEL
 
-type alias Model = Int
+
+type alias Model =
+    { tasks : List MapleTask
+    }
+
 
 init : Model
 init =
-  0
+    { tasks = [] }
+
 
 
 -- UPDATE
 
-type Msg = Increment | Decrement
+
+type Msg
+    = Increment
+    | Decrement
+
 
 update : Msg -> Model -> Model
 update msg model =
-  case msg of
-    Increment ->
-      model + 1
+    model
 
-    Decrement ->
-      model - 1
 
 
 -- VIEW
 
+
 view : Model -> Html Msg
 view model =
-  div []
-    [ button [ onClick Decrement ] [ text "-" ]
-    , div [] [ text (String.fromInt model) ]
-    , button [ onClick Increment ] [ text "+" ]
-    ]
+    div []
+        [ div [] (List.map MapleTask.view model.tasks)
+        , div [] (List.map MapleTask.view MapleTask.availableTasks)
+        ]
